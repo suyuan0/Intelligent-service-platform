@@ -33,7 +33,8 @@ export default {
   background-color: #18bc9c;
   color: #333;
   text-align: center;
-  line-height: 60px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .el-aside {

@@ -42,3 +42,13 @@ export const MenuNav = () => {
     method: 'GET'
   })
 }
+/**
+ * 用户退出
+ * @returns {AxiosPromise}
+ */
+export const logout = () => {
+  return request({
+    url: '/logout',
+    method: 'POST'
+  })
+}

@@ -8,6 +8,7 @@ export const notifyTips = (title, message, type) => {
   Notification({
     title,
     message,
-    type
+    type,
+    duration: 1000
   })
 }

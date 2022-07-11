@@ -1,5 +1,5 @@
-import { login, userInfo, MenuNav } from '@/api/user'
-import { setItem, getItem } from '@/utils/storage'
+import { login, userInfo, MenuNav, logout } from '@/api/user'
+import { setItem, getItem, removeItem } from '@/utils/storage'
 import { TOKEN } from '@/utils/const'
 
 export default {
@@ -35,6 +35,11 @@ export default {
     async userNav({ commit }) {
       const res = await MenuNav()
       commit('setNav', res)
+    },
+    async userLogout({ commit }) {
+      await logout()
+      commit('setToken', '')
+      removeItem(TOKEN)
     }
   }
 }
