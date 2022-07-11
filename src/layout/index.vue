@@ -1,52 +1,53 @@
 <template>
 
   <el-container>
-    <el-aside width='200px'>Aside</el-aside>
+    <app-aside></app-aside>
     <el-container>
-      <el-header>Header</el-header>
-      <el-main>Main</el-main>
+      <el-header>
+        <app-header></app-header>
+      </el-header>
+      <el-main>
+        <app-main></app-main>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+import AppAside from '@/layout/AppAside'
+import AppHeader from '@/layout/AppHeader'
+import AppMain from '@/layout/AppMain'
+
 export default {
-  name: 'layout'
+  name: 'layout',
+  components: {
+    AppAside,
+    AppHeader,
+    AppMain
+  }
 }
 </script>
 
 <style lang='scss' scoped>
-.el-header, .el-footer {
-  background-color: #B3C0D1;
+.el-header {
+  background-color: #18bc9c;
   color: #333;
   text-align: center;
   line-height: 60px;
 }
 
 .el-aside {
-  background-color: #D3DCE6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
+  background-color: #222d32;
+  color: #fff;
 }
 
 .el-main {
   background-color: #E9EEF3;
   color: #333;
-  text-align: center;
-  line-height: 160px;
 }
 
-body > .el-container {
+.el-container {
   margin-bottom: 40px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
+  height: 100%;
 }
 </style>
