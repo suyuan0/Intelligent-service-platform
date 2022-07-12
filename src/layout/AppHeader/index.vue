@@ -2,7 +2,7 @@
   <div class='header-container'>
     <div class='left-container'>
       <div class='left-icon' @click='changeCollapse'>
-        <i class='el-icon-s-fold'></i>
+        <i :class='icon'></i>
       </div>
       <div class='tags-view-container'>
         <tags-view></tags-view>
@@ -27,6 +27,12 @@ export default {
     ...mapMutations({
       changeCollapse: 'menu/changeCollapse'
     })
+
+  },
+  computed: {
+    icon () {
+      return this.$store.getters.Collapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
+    }
   }
 }
 </script>

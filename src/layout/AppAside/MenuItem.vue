@@ -6,15 +6,13 @@
         <span slot='title'>{{ item.label }}</span>
       </el-menu-item>
     </template>
-    <template v-else-if='item.children && item.children.length >0'>
-      <el-submenu :index='item.id + ""'>
-        <template slot='title'>
-          <i :class='"el-icon-" + item.icon'></i>
-          <span>{{ item.label }}</span>
-        </template>
-        <menu-item v-for='child in item.children' :key='child.path' :item='child'></menu-item>
-      </el-submenu>
-    </template>
+    <el-submenu v-else-if='item.children && item.children.length >0' :index='item.id + ""'>
+      <template slot='title'>
+        <i :class='"el-icon-" + item.icon'></i>
+        <span slot='title'>{{ item.label }}</span>
+      </template>
+      <menu-item v-for='child in item.children' :key='child.path' :item='child'></menu-item>
+    </el-submenu>
   </div>
 </template>
 

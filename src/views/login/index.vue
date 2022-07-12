@@ -72,7 +72,6 @@ export default {
         this.imgUrl = captchaImg
         this.loginFormModel.token = token
       } catch (e) {
-        this.getCaptcha()
         console.log(e)
       }
     },
@@ -84,6 +83,7 @@ export default {
         notifyTips('成功', '登录成功', 'success')
         this.$router.push('/')
       } catch (e) {
+        this.getCaptcha()
         console.log(e)
       }
       this.loading = false

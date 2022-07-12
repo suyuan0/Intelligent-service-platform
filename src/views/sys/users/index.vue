@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mySearch v-model='queryModel.username' label='用户名' @search='search'></mySearch>
+    <mySearch v-model='queryModel.username' label='用户名' @add='$refs.form.open()' @search='search'></mySearch>
     <myTable :clos='clos' :data='userLIst'>
       <template v-slot:avatar='{row:{avatar}}'>
         <el-avatar :size='60' :src='avatar'></el-avatar>
@@ -19,14 +19,18 @@
         <el-button plain size='mini' type='danger'>删除</el-button>
       </template>
     </myTable>
+    <my-pagination v-model='queryModel' :total='total' @change='getUserList'></my-pagination>
     <BackTop></BackTop>
+    <my-form ref='form' :options='options' title='新增用户' @determine='determine'></my-form>
   </div>
 </template>
 
 <script>
 import BackTop from '@/components/BackTop'
-import { userListApi } from '@/api/user'
+import { userListApi, addUserApi } from '@/api/user'
 import clos from './clos'
+import options from './options'
+import { notifyTips } from '@/utils/notify'
 
 export default {
   components: {
@@ -36,13 +40,15 @@ export default {
     return {
       value: 1,
       clos,
+      options,
       queryModel: {
         current: 1,
         size: 5,
         username: ''
       },
       // 用户列表数据
-      userLIst: []
+      userLIst: [],
+      total: 0
     }
   },
   created () {
@@ -61,14 +67,32 @@ export default {
   methods: {
     async getUserList () {
       try {
-        const { records } = await userListApi(this.queryModel)
+        const {
+          records,
+          total
+        } = await userListApi(this.queryModel)
         this.userLIst = records
+        this.total = total
       } catch (e) {
         console.log(e)
       }
     },
     search () {
+      this.queryModel.current = 1
       this.getUserList()
+    },
+    async determine () {
+      const form = this.$refs.form
+      try {
+        const value = await form.validate()
+        value.status = value.status ? value.status : '1'
+        await addUserApi(value)
+        this.getUserList()
+        form.close()
+        notifyTips('提示', '新增请求成功', 'success')
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }

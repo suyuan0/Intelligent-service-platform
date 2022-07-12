@@ -52,11 +52,28 @@ export const logout = () => {
     method: 'POST'
   })
 }
-
+/**
+ * 获取用户列表
+ * @param data
+ * @returns {AxiosPromise}
+ */
 export const userListApi = (data) => {
   return request({
     url: '/user/list',
     data,
     method: 'GET'
+  })
+}
+/**
+ * 添加用户
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export const addUserApi = (data) => {
+  data.avatar = data.avatar ? data.avatar : 'https://joeschmoe.io/api/v1/random'
+  return request({
+    url: '/user/add',
+    method: 'POST',
+    data
   })
 }
