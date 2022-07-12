@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mySearch v-model='queryModel.username' label='用户名' @add='$refs.form.open()' @search='search'></mySearch>
+    <mySearch v-model='queryModel.username' label='用户名' @add='model={};$refs.form.open()' @search='search'></mySearch>
     <myTable :clos='clos' :data='userLIst'>
       <template v-slot:avatar='{row:{avatar}}'>
         <el-avatar :size='60' :src='avatar'></el-avatar>
@@ -13,24 +13,34 @@
       <template v-slot:status='{row:{status}}'>
         <el-switch :active-value='1' :inactive-value='0' :value='status' active-color='#13ce66'></el-switch>
       </template>
-      <template v-slot:action>
-        <el-button plain size='mini' type='success'>编辑</el-button>
-        <el-button plain size='mini' type='warning'>分配角色</el-button>
-        <el-button plain size='mini' type='danger'>删除</el-button>
+      <template v-slot:action='{row}'>
+        <el-button plain size='mini' type='success' @click='model={...row};$refs.form.open()'>编辑</el-button>
+        <el-button :disabled='row.id===1' plain size='mini' type='warning' @click='handleRole(row)'>分配角色</el-button>
+        <el-button :disabled='row.id===1' plain size='mini' type='danger'>删除</el-button>
       </template>
     </myTable>
     <my-pagination v-model='queryModel' :total='total' @change='getUserList'></my-pagination>
     <BackTop></BackTop>
-    <my-form ref='form' :options='options' title='新增用户' @determine='determine'></my-form>
+    <my-form ref='form' v-model='model' :options='options' :title='title' @determine='determine'></my-form>
+    <my-dialog ref='dg' @determine='handleEditRole'>
+      <el-form label-width='50px'>
+        <el-form-item label='角色'>
+          <el-select v-model='integers' multiple style='width: 100%'>
+            <el-option v-for='item in roleList' :key='item.id' :label='item.name' :value='item.id' />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </my-dialog>
   </div>
 </template>
 
 <script>
 import BackTop from '@/components/BackTop'
-import { userListApi, addUserApi } from '@/api/user'
+import { userListApi, addUserApi, updateUserApi, roleApi } from '@/api/user'
 import clos from './clos'
 import options from './options'
 import { notifyTips } from '@/utils/notify'
+import { roleListAPI } from '@/api/role'
 
 export default {
   components: {
@@ -48,11 +58,25 @@ export default {
       },
       // 用户列表数据
       userLIst: [],
-      total: 0
+      total: 0,
+      model: {
+        username: '',
+        password: '',
+        avatar: '',
+        email: '',
+        status: ''
+      },
+      roleList: [],
+      integers: []
     }
   },
   created () {
     this.getUserList()
+  },
+  computed: {
+    title () {
+      return this.model.id ? '编辑用户' : '新增用户'
+    }
   },
   watch: {
     queryModel: {
@@ -86,10 +110,38 @@ export default {
       try {
         const value = await form.validate()
         value.status = value.status ? value.status : '1'
-        await addUserApi(value)
+        console.log(value)
+        await (this.model.id ? updateUserApi : addUserApi)(value)
         this.getUserList()
         form.close()
-        notifyTips('提示', '新增请求成功', 'success')
+        notifyTips('提示', `${this.model.id ? '编辑' : '新增'}请求成功`, 'success')
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async handleRole (row) {
+      this.integers = []
+      try {
+        const { records } = await roleListAPI()
+        this.roleList = records
+        const result = []
+        records.forEach(i => {
+          result.push(...row.roles.filter(item => {
+            return item.id === i.id
+          }))
+        })
+        this.integers = result.map(v => v.id)
+        this.$refs.dg.show()
+        this.model = { ...row }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async handleEditRole () {
+      try {
+        await roleApi(this.model.id, this.integers)
+        this.$refs.dg.hide()
+        notifyTips('提示', '请求成功', 'success')
       } catch (e) {
         console.log(e)
       }

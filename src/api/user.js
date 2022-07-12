@@ -77,3 +77,23 @@ export const addUserApi = (data) => {
     data
   })
 }
+/**
+ * 编辑用户
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export const updateUserApi = (data) => {
+  return request({
+    url: '/user/update',
+    method: 'PUT',
+    data
+  })
+}
+
+export const roleApi = (id, data) => {
+  return request({
+    url: `/user/assign/${id}`,
+    method: 'POST',
+    data
+  })
+}

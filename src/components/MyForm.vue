@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title='title' :visible='diglogVisible' center width='500px'>
+  <el-dialog :show-close='false' :title='title' :visible='diglogVisible' center width='500px'>
     <el-form ref='formRef' :model='model' label-width='70px'>
       <el-form-item v-for='(item,key) in formModel' :key='key' :label='item.title' :prop='key' :rules='item.rules'>
         <el-avatar
@@ -38,13 +38,25 @@ export default {
       return { ...this.options }
     }
   },
+  watch: {
+    value: {
+      deep: true,
+      immediate: true,
+      handler (val) {
+        this.$nextTick(() => {
+          this.model = { ...val }
+        })
+      }
+    }
+  },
   props: {
     title: String,
     options: {
       type: Object,
       default: () => {
       }
-    }
+    },
+    value: Object
   },
   methods: {
     open () {

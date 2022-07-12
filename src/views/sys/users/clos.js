@@ -2,7 +2,8 @@ export default [
   {
     title: '序号',
     type: 'index',
-    align: 'center'
+    align: 'center',
+    width: 70
   },
   {
     title: '用户名',
