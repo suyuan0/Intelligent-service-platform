@@ -35,6 +35,7 @@ export default {
     async userNav({ commit }) {
       const res = await MenuNav()
       commit('setNav', res)
+      return res
     },
     async userLogout({ commit }) {
       await logout()

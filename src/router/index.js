@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import layout from '@/layout'
+import users from './modules/users'
+import roles from './modules/roles'
+import menus from './modules/menus'
 
 Vue.use(VueRouter)
 
-const routes = [
+// 公有
+export const publicRoutes = [
   {
     path: '/login',
     name: 'login',
@@ -13,12 +17,30 @@ const routes = [
   {
     path: '/',
     name: 'layout',
-    component: layout
+    component: layout,
+    redirect: '/system',
+    children: [
+      {
+        path: '/system',
+        name: 'system',
+        component: () => import('@/views/console'),
+        meta: {
+          title: '/控制台',
+          icon: 'el-icon-s-home'
+        }
+      },
+      {
+        path: '/404',
+        name: '404',
+        component: () => import('@/views/other/404')
+      }
+    ]
   }
 ]
-
+// 私有
+export const privateRoutes = [users, roles, menus]
 const router = new VueRouter({
-  routes
+  routes: [...publicRoutes, ...privateRoutes]
 })
 
 export default router

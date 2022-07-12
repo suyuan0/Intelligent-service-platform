@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_API,
@@ -11,6 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     // TODO 发送请求头
+    NProgress.start()
     const token = store.getters.token
     if (token) {
       config.headers.token = token
@@ -18,6 +21,7 @@ instance.interceptors.request.use(
     return config
   },
   (error) => {
+    NProgress.done()
     return Promise.reject(new Error(error))
   }
 )
@@ -26,6 +30,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     // TODO 全局响应处理
+    NProgress.done()
     const { data, code, msg } = response.data
     if (code === 200) {
       return data
@@ -34,6 +39,7 @@ instance.interceptors.response.use(
     return Promise.reject(new Error(msg))
   },
   (error) => {
+    NProgress.done()
     const { message } = error
     if (message.includes('timeout')) {
       _showErrorMsg('网络超时啦')
