@@ -11,6 +11,26 @@
       <el-dropdown-item command='profile'>个人设置</el-dropdown-item>
       <el-dropdown-item command='logout'>退出</el-dropdown-item>
     </el-dropdown-menu>
+    <el-dialog :visible='dialogVisible' center close-on-press-escape title='编辑个人信息' width='500px'>
+      <el-form label-width='60px'>
+        <el-form-item label='头像'>
+          <el-avatar :size='60' :src='$store.getters.userInfo.avatar'></el-avatar>
+        </el-form-item>
+        <el-form-item label='账号'>
+          <el-input :value='$store.getters.userInfo.username' />
+        </el-form-item>
+        <el-form-item label='密码'>
+          <el-input type='password' value='112312312323' />
+        </el-form-item>
+        <el-form-item label='邮箱'>
+          <el-input value='51318492321@qq.com' />
+        </el-form-item>
+      </el-form>
+      <div slot='footer' class='dialog-footer'>
+        <el-button @click='dialogVisible=false'>取消</el-button>
+        <el-button type='primary' @click='dialogVisible=false'>确定</el-button>
+      </div>
+    </el-dialog>
   </el-dropdown>
 </template>
 
@@ -19,6 +39,11 @@ import { notifyTips } from '@/utils/notify'
 import { mapActions } from 'vuex'
 
 export default {
+  data () {
+    return {
+      dialogVisible: false
+    }
+  },
   methods: {
     ...mapActions({
       userLogout: 'user/userLogout'
@@ -27,6 +52,9 @@ export default {
       switch (command) {
         case 'logout':
           this.logout()
+          break
+        case 'profile':
+          this.person()
           break
       }
     },
@@ -40,6 +68,10 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    // 个人设置
+    async person () {
+      this.dialogVisible = true
     }
   }
 }
@@ -69,4 +101,9 @@ export default {
     }
   }
 }
+
+::v-deep(.el-dialog__body ) {
+  padding: 25px 25px 0 25px !important;
+}
+
 </style>
