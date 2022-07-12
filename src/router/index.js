@@ -6,7 +6,10 @@ import roles from './modules/roles'
 import menus from './modules/menus'
 
 Vue.use(VueRouter)
-
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err)
+}
 // 公有
 export const publicRoutes = [
   {
@@ -40,7 +43,7 @@ export const publicRoutes = [
 // 私有
 export const privateRoutes = [users, roles, menus]
 const router = new VueRouter({
-  routes: [...publicRoutes, ...privateRoutes]
+  routes: publicRoutes
 })
 
 export default router

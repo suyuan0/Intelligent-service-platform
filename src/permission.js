@@ -18,7 +18,13 @@ router.beforeEach(async (to, from, next) => {
     // 获取权限
     const authoritys = store.getters.authoritys
     if (JSON.stringify(authoritys) === '[]') {
-      await store.dispatch('user/userNav')
+      const res = await store.dispatch('user/userNav')
+      const routes = await store.dispatch(
+        'permission/filterMenus',
+        res.authoritys
+      )
+      routes.forEach((item) => router.addRoute(item))
+      return next(to.path)
     }
   }
   next()

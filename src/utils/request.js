@@ -13,6 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     // TODO 发送请求头
+    store.commit('loading/open')
     NProgress.start()
     const token = store.getters.token
     if (token) {
@@ -21,6 +22,7 @@ instance.interceptors.request.use(
     return config
   },
   (error) => {
+    store.commit('loading/close')
     NProgress.done()
     return Promise.reject(new Error(error))
   }
@@ -30,6 +32,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     // TODO 全局响应处理
+    store.commit('loading/close')
     NProgress.done()
     const { data, code, msg } = response.data
     if (code === 200) {
@@ -39,6 +42,7 @@ instance.interceptors.response.use(
     return Promise.reject(new Error(msg))
   },
   (error) => {
+    store.commit('loading/close')
     NProgress.done()
     const { message } = error
     if (message.includes('timeout')) {

@@ -52,3 +52,11 @@ export const logout = () => {
     method: 'POST'
   })
 }
+
+export const userListApi = (data) => {
+  return request({
+    url: '/user/list',
+    data,
+    method: 'GET'
+  })
+}

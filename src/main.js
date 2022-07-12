@@ -6,9 +6,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/reset.css'
 import './permission'
+import { install } from '@/utils/components'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+install(Vue)
 new Vue({
   router,
   store,

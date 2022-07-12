@@ -6,6 +6,7 @@
         <app-header></app-header>
       </el-header>
       <el-main>
+        <bread-crumbs></bread-crumbs>
         <app-main></app-main>
       </el-main>
     </el-container>
@@ -16,10 +17,12 @@
 import AppAside from '@/layout/AppAside'
 import AppHeader from '@/layout/AppHeader'
 import AppMain from '@/layout/AppMain'
+import BreadCrumbs from '@/components/BreadCrumbs'
 
 export default {
   name: 'layout',
   components: {
+    BreadCrumbs,
     AppAside,
     AppHeader,
     AppMain

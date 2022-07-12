@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <el-card style='margin-top: 10px'>
     <router-view />
-  </div>
+  </el-card>
 </template>
 
 <script>
