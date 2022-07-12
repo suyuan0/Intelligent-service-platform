@@ -1,6 +1,7 @@
 <template>
   <div>
-    <mySearch v-model='queryModel.username' label='用户名' @add='model={};$refs.form.open()' @search='search'></mySearch>
+    <mySearch v-model='queryModel.username' :flag='flag' label='用户名' @add='model={};$refs.form.open()'
+              @search='search'></mySearch>
     <myTable :clos='clos' :data='userLIst'>
       <template v-slot:avatar='{row:{avatar}}'>
         <el-avatar :size='60' :src='avatar'></el-avatar>
@@ -43,6 +44,7 @@ import clos from './clos'
 import options from './options'
 import { notifyTips } from '@/utils/notify'
 import { roleListAPI } from '@/api/role'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -76,8 +78,18 @@ export default {
     this.getUserList()
   },
   computed: {
+    ...mapGetters(['authoritys']),
     title () {
       return this.model.id ? '编辑用户' : '新增用户'
+    },
+    flag () {
+      let f = false
+      this.authoritys.forEach(item => {
+        if (item === 'sys:user:add') {
+          f = true
+        }
+      })
+      return f
     }
   },
   watch: {

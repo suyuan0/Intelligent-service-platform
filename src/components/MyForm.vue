@@ -9,6 +9,7 @@
         <el-input v-if='item.tag==="input"' v-model='model[key]' :clearable='item.clearable'
                   :placeholder='item.holader'
                   :show-password='item.showPassword'
+                  :show-word-limit='item.showWordLimit'
         ></el-input>
         <template v-if='item.tag==="radio"'>
           <el-radio v-model='model[key]' label='1'>正常</el-radio>
