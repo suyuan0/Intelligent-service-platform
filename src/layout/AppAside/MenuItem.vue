@@ -3,7 +3,7 @@
     <template v-if='!item.children'>
       <el-menu-item :index='item.path'>
         <i :class='"el-icon-" + item.icon'></i>
-        <span>{{ item.label }}</span>
+        <span slot='title'>{{ item.label }}</span>
       </el-menu-item>
     </template>
     <template v-else-if='item.children && item.children.length >0'>

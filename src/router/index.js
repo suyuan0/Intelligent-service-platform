@@ -25,7 +25,7 @@ export const publicRoutes = [
         name: 'system',
         component: () => import('@/views/console'),
         meta: {
-          title: '/控制台',
+          title: '控制台',
           icon: 'el-icon-s-home'
         }
       },

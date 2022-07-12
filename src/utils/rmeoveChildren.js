@@ -16,5 +16,6 @@ export const filterMenus = (data) => {
       delete item.children
     }
   })
+  data[0].path = '/system'
   return data
 }

@@ -1,5 +1,4 @@
 <template>
-
   <el-container>
     <app-aside></app-aside>
     <el-container>
@@ -32,9 +31,6 @@ export default {
 .el-header {
   background-color: #18bc9c;
   color: #333;
-  text-align: center;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .el-aside {
