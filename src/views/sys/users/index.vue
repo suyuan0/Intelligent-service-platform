@@ -16,7 +16,9 @@
       <template v-slot:action='{row}'>
         <el-button plain size='mini' type='success' @click='model={...row};$refs.form.open()'>编辑</el-button>
         <el-button :disabled='row.id===1' plain size='mini' type='warning' @click='handleRole(row)'>分配角色</el-button>
-        <el-button :disabled='row.id===1' plain size='mini' type='danger'>删除</el-button>
+        <el-popconfirm style='margin-left: 10px' title='确定删除嘛' @confirm='handleUserDel(row)'>
+          <el-button slot='reference' :disabled='row.id===1' plain size='mini' type='danger'>删除</el-button>
+        </el-popconfirm>
       </template>
     </myTable>
     <my-pagination v-model='queryModel' :total='total' @change='getUserList'></my-pagination>
@@ -36,7 +38,7 @@
 
 <script>
 import BackTop from '@/components/BackTop'
-import { userListApi, addUserApi, updateUserApi, roleApi } from '@/api/user'
+import { userListApi, addUserApi, updateUserApi, roleApi, userDelApi } from '@/api/user'
 import clos from './clos'
 import options from './options'
 import { notifyTips } from '@/utils/notify'
@@ -142,6 +144,14 @@ export default {
         await roleApi(this.model.id, this.integers)
         this.$refs.dg.hide()
         notifyTips('提示', '请求成功', 'success')
+        this.getUserList()
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async handleUserDel (row) {
+      try {
+        await userDelApi(row.id)
       } catch (e) {
         console.log(e)
       }

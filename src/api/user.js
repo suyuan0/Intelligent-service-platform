@@ -89,11 +89,24 @@ export const updateUserApi = (data) => {
     data
   })
 }
-
+/**
+ * 分配角色
+ * @param id
+ * @param data
+ * @returns {AxiosPromise}
+ */
 export const roleApi = (id, data) => {
   return request({
     url: `/user/assign/${id}`,
     method: 'POST',
     data
+  })
+}
+
+export const userDelApi = (integer) => {
+  return request({
+    url: `/sys/user/del`,
+    method: 'POST',
+    data: integer
   })
 }

@@ -51,11 +51,14 @@ instance.interceptors.response.use(
     if (message.includes('Network Error')) {
       _showErrorMsg('请检查网络')
     }
-    const { code, msg } = error.response.data
+    const { code, msg, status } = error.response.data
     switch (code) {
       case 400:
         _showErrorMsg(msg)
         break
+    }
+    if (status === 404) {
+      _showErrorMsg('找不到资源啦')
     }
     return Promise.reject(new Error(error))
   }
