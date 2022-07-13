@@ -12,3 +12,27 @@ export const menuListApi = (data) => {
     data
   })
 }
+/**
+ * 添加
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export const menuAddAPI = (data) => {
+  return request({
+    url: '/menu/add',
+    method: 'POST',
+    data
+  })
+}
+/**
+ * 修改
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export const menuUpdateAPI = (data) => {
+  return request({
+    url: '/menu/update',
+    method: 'PUT',
+    data
+  })
+}

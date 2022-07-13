@@ -43,7 +43,8 @@ export default [
   {
     title: '注册时间',
     prop: 'createTime',
-    align: 'center'
+    align: 'center',
+    width: 200
   },
   {
     title: '状态',
@@ -52,6 +53,8 @@ export default [
   },
   {
     title: '操作',
-    slot: 'action'
+    slot: 'action',
+    width: 200,
+    align: 'center'
   }
 ]

@@ -3,6 +3,7 @@ import { Message } from 'element-ui'
 import store from '@/store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import router from '@/router'
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_API,
@@ -38,11 +39,7 @@ instance.interceptors.response.use(
     if (code === 200) {
       return data
     }
-    if (code === 400) {
-      _showErrorMsg('未知错误')
-    } else {
-      _showErrorMsg(msg)
-    }
+    _showErrorMsg(msg)
     return Promise.reject(new Error(msg))
   },
   (error) => {
@@ -55,15 +52,23 @@ instance.interceptors.response.use(
     if (message.includes('Network Error')) {
       _showErrorMsg('请检查网络')
     }
-    const { code, msg, status } = error.response.data
-    switch (code) {
-      case 400:
-        _showErrorMsg(msg)
-        break
+    const { status } = error.response
+    if (status === 401) {
+      _showErrorMsg('重新登录一下叭')
+      store.dispatch('user/userLogout')
+      router.push('/login')
     }
-    if (status === 404) {
-      _showErrorMsg('找不到资源啦')
-    }
+    console.log(error.response)
+    // const { code, msg, status } = error.response.data
+    //
+    // switch (code) {
+    //   case 400:
+    //     _showErrorMsg(msg)
+    //     break
+    // }
+    // if (status === 404) {
+    //   _showErrorMsg('找不到资源啦')
+    // }
     return Promise.reject(new Error(error))
   }
 )

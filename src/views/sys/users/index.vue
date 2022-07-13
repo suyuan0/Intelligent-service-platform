@@ -124,7 +124,6 @@ export default {
       try {
         const value = await form.validate()
         value.status = value.status ? value.status : '1'
-        console.log(value)
         await (this.model.id ? updateUserApi : addUserApi)(value)
         this.getUserList()
         form.close()
