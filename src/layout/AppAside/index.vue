@@ -4,7 +4,7 @@
              active-text-color='#ffd04b'
              background-color='#222d32' router
              text-color='#fff'>
-      <menu-item v-for='item in menuList' :key='item.path' :item='item'></menu-item>
+      <menu-item v-for='(item,i) in menuList' :key='i' :item='item'></menu-item>
     </el-menu>
   </el-aside>
 </template>

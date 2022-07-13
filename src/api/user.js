@@ -110,3 +110,14 @@ export const userDelApi = (integer) => {
     data: integer
   })
 }
+/**
+ * 单个用户小心些
+ * @param id
+ * @returns {AxiosPromise}
+ */
+export const userInfoIdAPI = (id) => {
+  return request({
+    url: `/user/userInfo/${id}`,
+    method: 'GET'
+  })
+}

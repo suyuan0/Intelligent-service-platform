@@ -38,7 +38,11 @@ instance.interceptors.response.use(
     if (code === 200) {
       return data
     }
-    _showErrorMsg(msg)
+    if (code === 400) {
+      _showErrorMsg('未知错误')
+    } else {
+      _showErrorMsg(msg)
+    }
     return Promise.reject(new Error(msg))
   },
   (error) => {

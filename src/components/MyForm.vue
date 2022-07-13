@@ -12,8 +12,8 @@
                   :show-word-limit='item.showWordLimit'
         ></el-input>
         <template v-if='item.tag==="radio"'>
-          <el-radio v-model='model[key]' label='1'>正常</el-radio>
-          <el-radio v-model='model[key]' label='2'>禁用</el-radio>
+          <el-radio v-model='model.status' label='1'>正常</el-radio>
+          <el-radio v-model='model.status' label='2'>禁用</el-radio>
         </template>
       </el-form-item>
     </el-form>
@@ -31,7 +31,9 @@ export default {
     return {
       diglogVisible: false,
       radio: '1',
-      model: {}
+      model: {
+        status: '1'
+      }
     }
   },
   computed: {

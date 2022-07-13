@@ -13,7 +13,7 @@ export default [
   {
     title: '编码',
     align: 'center',
-    prop: 'name'
+    prop: 'code'
   },
   {
     title: '描述',

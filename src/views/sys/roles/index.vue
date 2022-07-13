@@ -6,21 +6,22 @@
       <template v-slot:status='{row:{status}}'>
         <el-switch :active-value='1' :inactive-value='0' :value='status' active-color='#13ce66'></el-switch>
       </template>
-      <template v-slot:action>
-        <el-button plain size='mini' type='success'>编辑</el-button>
+      <template v-slot:action='{row}'>
+        <el-button plain size='mini' type='success' @click='handleEdit(row)'>编辑</el-button>
         <el-button plain size='mini' type='warning'>分配权限</el-button>
         <el-button plain size='mini' type='danger'>删除</el-button>
       </template>
     </my-table>
     <my-pagination v-model='queryModel' :total='total' @change='getRoleList'></my-pagination>
-    <my-form ref='form' v-model='model' :options='options' title='新增角色' @determine='determine'></my-form>
+    <my-form ref='form' v-model='model' :options='options' :title='title+"角色"' @determine='determine'></my-form>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import clos from './clos'
-import { roleListAPI, roleAddApi } from '@/api/role'
+import { roleListAPI, roleAddApi, roleEditAPI } from '@/api/role'
+import { userInfoIdAPI } from '@/api/user'
 import options from './options'
 import { notifyTips } from '@/utils/notify'
 
@@ -54,6 +55,9 @@ export default {
         }
       })
       return f
+    },
+    title () {
+      return this.model.id ? '编辑' : '新增'
     }
   },
   created () {
@@ -81,10 +85,20 @@ export default {
       try {
         const value = await form.validate()
         value.status = value.status ? value.status : '1'
-        await roleAddApi(value)
-        notifyTips('提示', '添加角色成功', 'success')
+        await (this.model.id ? roleEditAPI : roleAddApi)(value)
         form.close()
         this.getRoleList()
+        notifyTips('提示', this.model.id ? '编辑角色成功' : '添加角色成功', 'success')
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async handleEdit (row) {
+      try {
+        this.model = { ...row }
+        const { status } = await userInfoIdAPI(row.id)
+        this.model.status = status
+        this.$refs.form.open()
       } catch (e) {
         console.log(e)
       }

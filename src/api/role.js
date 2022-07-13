@@ -24,3 +24,15 @@ export const roleAddApi = (data) => {
     data
   })
 }
+/**
+ * 编辑角色
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export const roleEditAPI = (data) => {
+  return request({
+    url: '/role/update',
+    method: 'PUT',
+    data
+  })
+}
