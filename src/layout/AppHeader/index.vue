@@ -8,6 +8,7 @@
         <tags-view></tags-view>
       </div>
     </div>
+    <ToolTip class='tool-tip'></ToolTip>
     <MyDropdown></MyDropdown>
   </div>
 </template>
@@ -17,9 +18,11 @@
 import MyDropdown from '@/components/MyDropdown'
 import { mapMutations } from 'vuex'
 import TagsView from '@/components/TagsView'
+import ToolTip from '@/components/ToolTip'
 
 export default {
   components: {
+    ToolTip,
     TagsView,
     MyDropdown
   },
@@ -41,6 +44,9 @@ export default {
 .header-container {
   height: 100%;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .left-container {
     position: absolute;
@@ -62,6 +68,11 @@ export default {
     .tags-view-container {
       margin-left: 10px;
     }
+  }
+
+  .tool-tip {
+    position: absolute;
+    right: 150px;
   }
 }
 </style>
