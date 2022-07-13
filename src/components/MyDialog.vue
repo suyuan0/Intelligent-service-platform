@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :show-close='false' :visible='diglogVisible' center title='分配角色' width='500px'>
+  <el-dialog :show-close='false' :title='title' :visible='diglogVisible' center width='500px'>
     <slot></slot>
     <div slot='footer'>
       <el-button size='mini' @click='diglogVisible=false'>取消</el-button>
@@ -14,6 +14,12 @@ export default {
   data () {
     return {
       diglogVisible: false
+    }
+  },
+  props: {
+    title: {
+      type: String,
+      default: '分配角色'
     }
   },
   methods: {
