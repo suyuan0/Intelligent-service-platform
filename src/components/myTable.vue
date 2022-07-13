@@ -1,5 +1,6 @@
 <template>
-  <el-table v-loading='$store.getters.loading' :data='data' border stripe>
+  <el-table v-loading='$store.getters.loading' :data='data'
+            :row-key='rowKey' :tree-props='treeProps' border stripe>
     <el-table-column
       v-for='(item,i) in clos'
       :key='i'
@@ -27,6 +28,15 @@ export default {
     data: {
       type: Array,
       default: () => []
+    },
+    treeProps: {
+      type: Object,
+      default: () => {
+      }
+    },
+    rowKey: {
+      type: String,
+      default: 'id'
     }
   }
 }
