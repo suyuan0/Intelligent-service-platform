@@ -65,6 +65,7 @@ export default {
         notifyTips('提示', '正在退出中...', 'success')
         await this.userLogout()
         this.$router.push('/login')
+        location.reload()
       } catch (e) {
         console.log(e)
       }

@@ -55,20 +55,10 @@ instance.interceptors.response.use(
     const { status } = error.response
     if (status === 401) {
       _showErrorMsg('重新登录一下叭')
-      store.dispatch('user/userLogout')
+      // store.dispatch('user/userLogout')
+      store.commit('user/setToken', '')
       router.push('/login')
     }
-    console.log(error.response)
-    // const { code, msg, status } = error.response.data
-    //
-    // switch (code) {
-    //   case 400:
-    //     _showErrorMsg(msg)
-    //     break
-    // }
-    // if (status === 404) {
-    //   _showErrorMsg('找不到资源啦')
-    // }
     return Promise.reject(new Error(error))
   }
 )

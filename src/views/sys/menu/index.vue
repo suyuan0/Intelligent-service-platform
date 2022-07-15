@@ -1,6 +1,6 @@
 <template>
   <div>
-    <my-search v-model='queryModel.username' :flag='flag' label='菜单' @add='$refs.form.open()'
+    <my-search v-model='queryModel.username' flag='sys:menu:add' label='菜单' @add='$refs.form.open()'
                @search='search'></my-search>
     <my-table :clos='clos' :data='menuList' :treeProps='{children: "children"}'>
       <template v-slot:type='{row:{type}}'>
@@ -10,8 +10,10 @@
         <el-switch :active-value='1' :inactive-value='0' :value='status' active-color='#13ce66'></el-switch>
       </template>
       <template v-slot:action='{row}'>
-        <el-button plain size='mini' type='success' @click='formModel={...row};$refs.form.open()'>编辑</el-button>
-        <el-button plain size='mini' type='danger'>删除</el-button>
+        <el-button v-bp='"sys:menu:update"' plain size='mini' type='success'
+                   @click='formModel={...row};$refs.form.open()'>编辑
+        </el-button>
+        <el-button v-bp='"sys:menu:del"' plain size='mini' type='danger'>删除</el-button>
       </template>
     </my-table>
     <my-form ref='form' v-model='formModel' :menu='menuList' :options='options' :title='title' lw='100px'
@@ -57,15 +59,6 @@ export default {
   },
   computed: {
     ...mapGetters(['authoritys']),
-    flag () {
-      let f = false
-      this.authoritys.forEach(item => {
-        if (item === 'sys:user:add') {
-          f = true
-        }
-      })
-      return f
-    },
     title () {
       return this.formModel.id ? '编辑菜单' : '添加菜单'
     }

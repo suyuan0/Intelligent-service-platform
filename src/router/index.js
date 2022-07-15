@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import layout from '@/layout'
-import users from './modules/users'
-import roles from './modules/roles'
-import menus from './modules/menus'
 
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
@@ -40,8 +37,6 @@ export const publicRoutes = [
     ]
   }
 ]
-// 私有
-export const privateRoutes = [users, roles, menus]
 const router = new VueRouter({
   routes: publicRoutes
 })

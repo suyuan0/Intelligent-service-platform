@@ -8,6 +8,7 @@ import './styles/reset.css'
 import './permission'
 import { install } from '@/utils/components'
 import Fragment from 'vue-fragment'
+import './directive/buttonPermissions'
 
 Vue.use(Fragment.Plugin)
 Vue.config.productionTip = false

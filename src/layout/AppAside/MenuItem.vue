@@ -11,7 +11,9 @@
         <i :class='"el-icon-" + item.icon'></i>
         <span slot='title'>{{ item.label }}</span>
       </template>
-      <menu-item v-for='child in item.children' :key='child.path' :item='child'></menu-item>
+      <template v-if='item.children'>
+        <menu-item v-for='child in item.children' :key='child.path' :item='child'></menu-item>
+      </template>
     </el-submenu>
   </fragment>
 </template>

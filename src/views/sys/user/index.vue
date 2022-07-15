@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mySearch v-model='queryModel.username' :flag='flag' label='用户名' @add='model={};$refs.form.open()'
+    <mySearch v-model='queryModel.username' flag='sys:user:add' label='用户名' @add='model={};$refs.form.open()'
               @search='search'></mySearch>
     <myTable :clos='clos' :data='userLIst'>
       <template v-slot:avatar='{row:{avatar}}'>
@@ -15,9 +15,13 @@
         <el-switch :active-value='1' :inactive-value='0' :value='status' active-color='#13ce66'></el-switch>
       </template>
       <template v-slot:action='{row}'>
-        <el-button plain size='mini' type='success' @click='model={...row};$refs.form.open()'>编辑</el-button>
-        <el-button :disabled='row.id===1' plain size='mini' type='warning' @click='handleRole(row)'>分配角色</el-button>
-        <el-popconfirm style='margin-left: 10px' title='确定删除嘛' @confirm='handleUserDel(row)'>
+        <el-button v-bp='"sys:user:update"' plain size='mini' type='success' @click='model={...row};$refs.form.open()'>
+          编辑
+        </el-button>
+        <el-button v-bp='"sys:user:assign"' :disabled='row.id===1' plain size='mini' type='warning'
+                   @click='handleRole(row)'>分配角色
+        </el-button>
+        <el-popconfirm v-bp='"sys:user:del"' style='margin-left: 10px' title='确定删除嘛' @confirm='handleUserDel(row)'>
           <el-button slot='reference' :disabled='row.id===1' plain size='mini' type='danger'>删除</el-button>
         </el-popconfirm>
       </template>
@@ -81,15 +85,6 @@ export default {
     ...mapGetters(['authoritys']),
     title () {
       return this.model.id ? '编辑用户' : '新增用户'
-    },
-    flag () {
-      let f = false
-      this.authoritys.forEach(item => {
-        if (item === 'sys:user:add') {
-          f = true
-        }
-      })
-      return f
     }
   },
   watch: {

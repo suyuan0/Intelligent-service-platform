@@ -1,15 +1,15 @@
 <template>
   <div>
-    <my-search v-model='queryModel.name' :flag='flag' label='角色' @add='model={};$refs.form.open()'
+    <my-search v-model='queryModel.name' flag='sys:role:add' label='角色' @add='model={};$refs.form.open()'
                @search='search'></my-search>
     <my-table :clos='clos' :data='roleList'>
       <template v-slot:status='{row:{status}}'>
         <el-switch :active-value='1' :inactive-value='0' :value='status' active-color='#13ce66'></el-switch>
       </template>
       <template v-slot:action='{row}'>
-        <el-button plain size='mini' type='success' @click='handleEdit(row)'>编辑</el-button>
-        <el-button plain size='mini' type='warning' @click='handleEditRole(row)'>分配权限</el-button>
-        <el-button plain size='mini' type='danger'>删除</el-button>
+        <el-button v-bp='"sys:role:update"' plain size='mini' type='success' @click='handleEdit(row)'>编辑</el-button>
+        <el-button v-bp='"sys:role:perm"' plain size='mini' type='warning' @click='handleEditRole(row)'>分配权限</el-button>
+        <el-button v-bp='"sys:role:del"' plain size='mini' type='danger'>删除</el-button>
       </template>
     </my-table>
     <my-pagination v-model='queryModel' :total='total' @change='getRoleList'></my-pagination>
@@ -62,15 +62,6 @@ export default {
   },
   computed: {
     ...mapGetters(['authoritys']),
-    flag () {
-      let f = false
-      this.authoritys.forEach(item => {
-        if (item === 'sys:user:add') {
-          f = true
-        }
-      })
-      return f
-    },
     title () {
       return this.model.id ? '编辑' : '新增'
     }

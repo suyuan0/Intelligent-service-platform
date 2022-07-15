@@ -104,10 +104,11 @@ export const roleApi = (id, data) => {
 }
 
 export const userDelApi = (integer) => {
+  console.log([integer])
   return request({
     url: `/sys/user/del`,
     method: 'POST',
-    data: integer
+    data: [integer]
   })
 }
 /**

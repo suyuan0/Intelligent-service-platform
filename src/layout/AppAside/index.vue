@@ -1,6 +1,7 @@
 <template>
   <el-aside :width='sideWidth'>
-    <el-menu :collapse='$store.getters.Collapse' :collapse-transition='false' :default-active='$route.path'
+    <el-menu v-if='menuList' :collapse='$store.getters.Collapse' :collapse-transition='false'
+             :default-active='$route.path'
              active-text-color='#ffd04b'
              background-color='#222d32' router
              text-color='#fff'>

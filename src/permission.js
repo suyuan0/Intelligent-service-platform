@@ -1,5 +1,6 @@
 import router from '@/router'
 import store from '@/store'
+import { filterRoutes } from '@/utils/route'
 
 router.beforeEach(async (to, from, next) => {
   const token = store.getters.token
@@ -16,14 +17,21 @@ router.beforeEach(async (to, from, next) => {
       await store.dispatch('user/userInfo')
     }
     // 获取权限
-    const authoritys = store.getters.authoritys
-    if (JSON.stringify(authoritys) === '[]') {
-      const res = await store.dispatch('user/userNav')
-      const routes = await store.dispatch(
-        'permission/filterMenus',
-        res.authoritys
-      )
-      routes.forEach((item) => router.addRoute(item))
+    // const authoritys = store.getters.authoritys
+    // if (JSON.stringify(authoritys) === '[]') {
+    //   const res = await store.dispatch('user/userNav')
+    //   const routes = await store.dispatch(
+    //     'permission/filterMenus',
+    //     res.authoritys
+    //   )
+    //   routes.forEach((item) => router.addRoute(item))
+    //   return next(to.path)
+    // }
+    const menus = store.getters.menus
+    if (JSON.stringify(menus) === '[]') {
+      const { menus } = await store.dispatch('user/userNav')
+      const routes = filterRoutes(menus)
+      routes.forEach((item) => router.addRoute('layout', item))
       return next(to.path)
     }
   }
